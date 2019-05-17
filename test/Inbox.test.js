@@ -20,4 +20,15 @@ describe('sample', () => {
     it('has accounts', () => {
         assert.ok(inbox.options.address)
     })
+
+    it('has a default message', async() => {
+        const message = await inbox.methods.message().call()
+        assert.equal(message, 'Hi there!')
+    })
+
+    it('updates the message', async () => {
+        await inbox.methods.setMessage('bye').send({ from: accounts[8]})
+        const message = await inbox.methods.message().call()
+        assert.equal(message, 'bye')
+    })
 });
